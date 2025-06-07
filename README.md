@@ -42,6 +42,7 @@ pip install -r requirements.txt
 
 ### 3. Prepare Your Data
 - Place your `books.csv` file in the project root
+- Download from https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset?select=Ratings.csv
 - The CSV should have columns: `ISBN`, `Book-Title`, `Book-Author`, `Year-Of-Publication`, `Publisher`
 
 ### 4. Create Templates Directory
