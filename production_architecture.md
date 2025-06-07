@@ -7,21 +7,21 @@ A scalable, production-ready book recommendation system that serves personalized
 ## High-Level Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend Web  │    │   Mobile App    │    │  Partner APIs   │
-│   Application   │    │   (iOS/Android) │    │   (3rd party)   │
-└─────────┬───────┘    └─────────┬───────┘    └─────────┬───────┘
-          │                      │                      │
-          └──────────────────────┼──────────────────────┘
-                                 │
+ ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+ │   Frontend Web  │    │   Mobile App    │    │  Partner APIs   │
+ │   Application   │    │   (iOS/Android) │    │   (3rd party)   │
+ └─────────┬───────┘    └─────────┬───────┘    └─────────┬───────┘
+           │                      │                      │
+           └──────────────────────┼──────────────────────┘
+                                  │
                     ┌─────────────┴─────────────┐
                     │     API Gateway           │
                     │   (AWS API Gateway /      │
                     │    Kong / Nginx)          │
                     └─────────────┬─────────────┘
                                   │
-              ┌───────────────────┼───────────────────┐
-              │                   │                   │
+              ┌───────────────────┼──────────────────┐
+              │                   │                  │
     ┌─────────▼────────┐ ┌────────▼────────┐ ┌───────▼────────┐
     │  Recommendation  │ │   User Service  │ │  Book Service  │
     │     Service      │ │                 │ │                │
