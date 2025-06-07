@@ -1,5 +1,9 @@
 # Book Recommendation System Setup
 📚 Intelligent book discovery platform that leverages SentenceTransformers and cosine similarity to recommend books based on semantic understanding rather than simple keyword matching. Built with Flask and featuring a responsive UI for seamless book exploration.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/93b0505e-bd2f-4a12-8a0d-cd9491545fe5" alt="Book Recommender" width="500"/>
+</p>
+
 
 ## General Approach
 A general developement can be followed in production_architecture.md
