@@ -1,13 +1,8 @@
 # Book Recommendation System Setup
-venv\Scripts\activate # created by: python -m venv venv
+📚 Intelligent book discovery platform that leverages SentenceTransformers and cosine similarity to recommend books based on semantic understanding rather than simple keyword matching. Built with Flask and featuring a responsive UI for seamless book exploration.
 
-pip install -r requirements.txt
-
-python app.py
-
-pip list
 ## General Approach
-see production_architecture.md
+A general developement can be followed in production_architecture.md
 
 ## Requirements.txt
 ```
@@ -37,7 +32,7 @@ book-recommender/
 ### 1. Create Virtual Environment
 ```bash
 python -m venv book_recommender_env
-source book_recommender_env/bin/activate  # On Windows: book_recommender_env\Scripts\activate
+book_recommender_env\Scripts\activate  # On Linux/Mac: source book_recommender_env/bin/activate
 ```
 
 ### 2. Install Dependencies
