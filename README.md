@@ -3,6 +3,8 @@ venv\Scripts\activate # created by: python -m venv venv
 
 pip install -r requirements.txt
 
+python app.py
+
 pip list
 ## General Approach
 see production_architecture.md
@@ -86,7 +88,7 @@ POST /recommend
     "book": "Lord of the Rings"
 }
 ```
-
+In Postman, select a post method, go to Body, select raw, enter the above
 ### 📋 Sample Response
 ```json
 {
