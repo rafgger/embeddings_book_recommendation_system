@@ -1,9 +1,12 @@
 # Book Recommendation System Setup
-venv\Scripts\activate
+venv\Scripts\activate # created by: python -m venv venv
 
 pip install -r requirements.txt
 
 pip list
+## General Approach
+see production_architecture.md
+
 ## Requirements.txt
 ```
 Flask==2.3.3
