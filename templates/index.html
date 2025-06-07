@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: #667eea;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        .book-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .book-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .book-meta {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .similarity-score {
+            float: right;
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #c62828;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin: 20px 0;
+        }
+
+        .example-queries {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .example-queries h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .example-query {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .example-query:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .book-card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Book Recommender</h1>
+        <p class="subtitle">Discover your next favorite book using ML-powered recommendations</p>
+        
+        <div class="example-queries">
+            <h3>Try these examples:</h3>
+            <span class="example-query" onclick="setQuery('Lord of the Rings')">Lord of the Rings</span>
+            <span class="example-query" onclick="setQuery('Harry Potter')">Harry Potter</span>
+            <span class="example-query" onclick="setQuery('Dune')">Dune</span>
+            <span class="example-query" onclick="setQuery('Game of Thrones')">Game of Thrones</span>
+            <span class="example-query" onclick="setQuery('Classical Mythology')">Classical Mythology</span>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label for="bookInput">What's your favorite book?</label>
+                <input type="text" id="bookInput" placeholder="Enter a book title you love..." autocomplete="off">
+            </div>
+            <button class="btn" onclick="getRecommendations()">Get Recommendations</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Finding similar books...
+        </div>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <script>
+        function setQuery(query) {
+            document.getElementById('bookInput').value = query;
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.btn').disabled = true;
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.querySelector('.btn').disabled = false;
+        }
+
+        function displayError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            let html = '';
+
+            // Display exact matches if any
+            if (data.exact_matches && data.exact_matches.length > 0) {
+                html += '<div class="section-title">📍 Exact Matches in Our Database</div>';
+                data.exact_matches.forEach(book => {
+                    html += `
+                        <div class="book-card">
+                            <div class="book-title">${book.title}</div>
+                            <div class="book-author">by ${book.author}</div>
+                            <div class="book-meta">${book.year} • ${book.publisher}</div>
+                        </div>
+                    `;
+                });
+                html += '<br>';
+            }
+
+            // Display recommendations
+            if (data.recommendations && data.recommendations.length > 0) {
+                html += '<div class="section-title">🔥 Recommended for You</div>';
+                data.recommendations.forEach(book => {
+                    const similarityPercent = Math.round(book.similarity * 100);
+                    html += `
+                        <div class="book-card">
+                            <div class="similarity-score">${similarityPercent}% match</div>
+                            <div class="book-title">${book.title}</div>
+                            <div class="book-author">by ${book.author}</div>
+                            <div class="book-meta">${book.year} • ${book.publisher}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div class="no-results">No recommendations found. Try a different book title!</div>';
+            }
+
+            resultsDiv.innerHTML = html;
+        }
+
+        async function getRecommendations() {
+            const bookInput = document.getElementById('bookInput').value.trim();
+            
+            if (!bookInput) {
+                displayError('Please enter a book title');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const response = await fetch('/recommend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ book: bookInput })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'An error occurred');
+                }
+
+                displayResults(data);
+            } catch (error) {
+                displayError(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Allow Enter key to trigger search
+        document.getElementById('bookInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                getRecommendations();
+            }
+        });
+
+        // Auto-focus on input
+        document.getElementById('bookInput').focus();
+    </script>
+</body>
+</html>
