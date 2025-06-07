@@ -95,17 +95,17 @@ GET  /recommendations/trending            # Popular books
 │ • Reviews       │    │   features      │    │ • A/B variants  │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
-         │              ┌────────▼────────┐             │
-         │              │  Feature        │             │
-         └──────────────▶│  Engineering    │◀────────────┘
+         │              ┌────────▼────────┐              │
+         │              │  Feature        │              │
+         └────────────▶│ Engineering     │◀─────────────┘
                         │  Pipeline       │
-                        │  (Apache Airflow)│
+                        │ (Apache Airflow)│
                         └────────┬────────┘
                                  │
                         ┌────────▼────────┐
                         │   ML Training   │
                         │   Pipeline      │
-                        │ (Kubeflow/MLflow)│
+                        │(Kubeflow/MLflow)│
                         └────────┬────────┘
                                  │
                         ┌────────▼────────┐
